@@ -12,6 +12,7 @@ class TodoItem extends Component {
 
     renderHTML() {
         const todo = this.props.todo;
+        console.log(todo);
 
         return /*html*/`
             

@@ -8,6 +8,7 @@ import { getTodos, addTodo, updateTodo, removeTodo } from '../services/todo-api.
 class TodoApp extends Component {
 
     async onRender(dom) {
+
         const header = new Header({ title: 'My Todos' });
         dom.prepend(header.renderDOM());
         
@@ -19,14 +20,19 @@ class TodoApp extends Component {
 
         // initial todo load:
         try {
-            
+            const saved = await addTodo(todo);
+            const todos = this.state.todos;
+            todos.push(saved);
         }
         catch (err) {
-            // display error...
+            error.textContent = err;
+            throw err;
         }
         finally {
             loading.update({ loading: false });
         }
+
+        
 
     }
 

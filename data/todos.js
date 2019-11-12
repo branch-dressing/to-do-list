@@ -1,7 +1,7 @@
 module.exports = [
     {
         task: 'Create data tables',
-        complete: true
+        complete: false
     },
     {
         task: 'Backend todo server',
