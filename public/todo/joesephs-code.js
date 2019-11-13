@@ -9,20 +9,20 @@ class AddTodo extends Component {
             event.preventDefault();
 
             const formData = new FormData(form);
-
-            const newToDo = {
+            
+            const newTodo = {
                 task: formData.get('todo-input'),
                 complete: false
             };
 
             try {
-                await onAdd(newToDo);
-                // form.reset();
-                // document.activeElement.blur();
+                await onAdd(newTodo);
             }
             catch (err) {
                 console.log(err);
             }
+
+
         });
     }
 
@@ -30,10 +30,8 @@ class AddTodo extends Component {
         return /*html*/`
             <form>
                 <input type="text" name="todo-input" class="todo-input">
-                <button>Add Item</button>
+                <button>Add Todo</button>
             </form>
         `;
     }
 }
-
-export default AddTodo;

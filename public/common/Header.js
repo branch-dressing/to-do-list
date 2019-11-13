@@ -8,6 +8,8 @@ class Header extends Component {
             <header>
                 <h1>${title}</h1>
                 <nav>
+                <a href="./">Home</a>
+                <a href="./todo.html">Todos</a>
                 </nav>
             </header>
         `;

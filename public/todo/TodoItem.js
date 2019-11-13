@@ -3,19 +3,24 @@ import Component from '../Component.js';
 class TodoItem extends Component {
 
     onRender(dom) {
-        const todo = this.props.todo;
-        const onUpdate = this.props.onUpdate;
-        const onRemove = this.props.onRemove;
+        const todo = this.props.todos;
+        //const onUpdate = this.props.onUpdate;
+        //const onRemove = this.props.onRemove;
 
         
     }
 
     renderHTML() {
-        const todo = this.props.todo;
+        const todo = this.props.item;
         console.log(todo);
 
         return /*html*/`
-            
+            <li class="list-item">
+    ]           <div class="info-container">
+                    <h2>${todo.task}</h2>
+                    <p>Status: ${todo.complete}</p>
+                </div>
+            </li>
         `;
     }
 }
