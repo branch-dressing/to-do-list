@@ -12,7 +12,6 @@ class TodoItem extends Component {
 
     renderHTML() {
         const todo = this.props.item;
-        console.log(todo);
 
         return /*html*/`
             <li class="list-item">
