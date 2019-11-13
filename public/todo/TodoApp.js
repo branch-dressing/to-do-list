@@ -17,7 +17,45 @@ class TodoApp extends Component {
         
         const main = dom.querySelector('main');
         const error = dom.querySelector('.error');
-        const list = new TodoList({ todos: [] });
+
+        const list = new TodoList({
+            todos: [],
+            onUpdate: async todo => {
+                loading.update({ loading: true });
+                error.textContent = '';
+
+                try {
+                    await updateTodo(todo);
+                    const todos = this.state.todo;
+                    list.update({ todos });
+                }
+                catch (err) {
+                    console.log(err);
+                }
+                finally {
+                    loading.update({ loading: false });
+                }
+            },
+
+            removeTodo: async todo => {
+                loading.update({ loading: true });
+                error.textContent = '';
+
+                try {
+                    await removeTodo(todo.id);
+                    const todos = this.state.todo;
+                    const index = todos.indexOf(todo);
+                    todos.splice(index, 1);
+                    list.update({ todos });
+                }
+                catch (err) {
+                    console.log(err);
+                }
+                finally {
+                    loading.update({ loading: false });
+                }
+            }
+        });
         main.appendChild(list.renderDOM());
 
         const add = new AddTodo({ 
@@ -27,13 +65,9 @@ class TodoApp extends Component {
 
                 try {
                     const saved = await addTodo(todo);
-                    console.log('this is saved: ' + saved);
-                    console.log('this is this: ' + Object.keys(this));
-                    console.log('this is this.state: ' + Object.keys(this.state));
                     const todos = this.state.todo;
                     todos.push(saved);
                     list.update({ todos });
-                    console.log('this is list: ' + list);
                 }
 
                 catch (err) {
