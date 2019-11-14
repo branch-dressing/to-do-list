@@ -5,14 +5,15 @@ class SignUp extends Component {
         const onSignUp = this.props.onSignUp;
         form.addEventListener('submit', event => {
             event.preventDefault();
-
+            
             const formData = new FormData(form);
             const user = {
                 displayName: formData.get('name'),
                 email: formData.get('email'),
                 password: formData.get('password')
             };
-
+            
+            console.log(formData.get('name'), formData.get('email'), formData.get('password'));
             onSignUp(user);
         });
     }
@@ -27,7 +28,7 @@ class SignUp extends Component {
 
                 <p>
                     <label for="email">Email</label>
-                    <input id="email" type="email" name="name" required placeholder="your.email@somewhere.com">
+                    <input id="email" type="email" name="email" required placeholder="your.email@somewhere.com">
                 </p>
 
                 <p>
