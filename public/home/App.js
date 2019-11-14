@@ -76,6 +76,24 @@ class App extends Component {
     }
         
     renderHTML() {
+        const user = localStorage.getItem('USER');
+
+        if (user) {
+            return /*html*/`
+                <div>
+                    <main>
+                        <section class="user-display">
+                            <p>
+                                Signed in as ${user}
+                            </p>
+                            <p>
+                                <button class="logout">Logout</button>
+                            </p>
+                        </section>
+                    </main>
+                </div>
+            `;
+        }
         return /*html*/`
             <div>
                 <main>

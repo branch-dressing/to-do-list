@@ -73,6 +73,9 @@ class TodoApp extends Component {
                 catch (err) {
                     console.log(err);
                 }
+                finally {
+                    loading.update({ loading: false });
+                }
             } 
         });
         main.appendChild(add.renderDOM());
