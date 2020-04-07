@@ -8,15 +8,20 @@ class AddTodo extends Component {
         form.addEventListener('submit', async event => {
             event.preventDefault();
 
+            const formData = new FormData(form);
+
+            const newToDo = {
+                task: formData.get('todo-input'),
+                complete: false
+            };
+
             try {
-                await onAdd(catType);
-                // this only runs if no error:
-                form.reset();
-                document.activeElement.blur();
+                await onAdd(newToDo);
+                // form.reset();
+                // document.activeElement.blur();
             }
             catch (err) {
-                // nothing to do as App will show error,
-                // but will keep form from clearing...
+                console.log(err);
             }
         });
     }
@@ -24,7 +29,8 @@ class AddTodo extends Component {
     renderHTML() {
         return /*html*/`
             <form>
-                
+                <input type="text" name="todo-input" class="todo-input">
+                <button>Add Item</button>
             </form>
         `;
     }

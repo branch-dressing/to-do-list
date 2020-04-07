@@ -8,26 +8,89 @@ import { getTodos, addTodo, updateTodo, removeTodo } from '../services/todo-api.
 class TodoApp extends Component {
 
     async onRender(dom) {
+
         const header = new Header({ title: 'My Todos' });
         dom.prepend(header.renderDOM());
+        
+        const loading = new Loading({ loading: true });
+        dom.appendChild(loading.renderDOM());
         
         const main = dom.querySelector('main');
         const error = dom.querySelector('.error');
 
-        const loading = new Loading({ loading: true });
-        dom.appendChild(loading.renderDOM());
+        const list = new TodoList({
+            todos: [],
+            onUpdate: async todo => {
+                loading.update({ loading: true });
+                error.textContent = '';
 
-        // initial todo load:
+                try {
+                    await updateTodo(todo);
+                    const todos = this.state.todo;
+                    list.update({ todos });
+                }
+                catch (err) {
+                    console.log(err);
+                }
+                finally {
+                    loading.update({ loading: false });
+                }
+            },
+
+            removeTodo: async todo => {
+                loading.update({ loading: true });
+                error.textContent = '';
+
+                try {
+                    await removeTodo(todo.id);
+                    const todos = this.state.todo;
+                    const index = todos.indexOf(todo);
+                    todos.splice(index, 1);
+                    list.update({ todos });
+                }
+                catch (err) {
+                    console.log(err);
+                }
+                finally {
+                    loading.update({ loading: false });
+                }
+            }
+        });
+        main.appendChild(list.renderDOM());
+
+        const add = new AddTodo({ 
+            onAdd: async (todo) => {
+                loading.update({ loading: true });
+                error.textContent = '';
+
+                try {
+                    const saved = await addTodo(todo);
+                    const todos = this.state.todo;
+                    todos.push(saved);
+                    list.update({ todos });
+                }
+
+                catch (err) {
+                    console.log(err);
+                }
+                finally {
+                    loading.update({ loading: false });
+                }
+            } 
+        });
+        main.appendChild(add.renderDOM());
+
         try {
-            
+            const todos = await getTodos();
+            list.update({ todos: todos });
+            this.state.todo = todos;
         }
         catch (err) {
-            // display error...
+            console.log('Load to dos failed', err);
         }
         finally {
             loading.update({ loading: false });
         }
-
     }
 
     renderHTML() {
